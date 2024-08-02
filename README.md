@@ -32,7 +32,7 @@ So, no matter what your application is about, if you need to show pop-up notific
 
 ## Requirements
 - Windows XP/Vista/7/8/10, Linux, Mac-OS X
-- Java Runtime Environment 8 or higher
+- Java 8 or higher
 - Translucent windows support in AWT/Swing is recommended for best results (Java 7 or higher is needed for this).
 
 ## Being developed

@@ -35,4 +35,17 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/srbalbucio/DS-Desktop-Notify</url>
+        </repository>
+        <snapshotRepository>
+            <id>github</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/srbalbucio/DS-Desktop-Notify</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
