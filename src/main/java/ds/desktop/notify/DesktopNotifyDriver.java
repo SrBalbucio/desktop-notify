@@ -23,13 +23,14 @@ import javax.swing.JFrame;
 
 /**
  * This Driver keeps track of the notifications being displayed.
+ *
  * @author DragShot
  */
 public final class DesktopNotifyDriver {
     /**
      * The list of notifications currently on queue.
      */
-    static ArrayList<DesktopNotify> windows=new ArrayList();
+    static ArrayList<DesktopNotify> windows = new ArrayList<>();
     /**
      * The window used to show the notifications.
      */
@@ -39,48 +40,50 @@ public final class DesktopNotifyDriver {
      */
     static volatile Thread tredo;
 
-    private DesktopNotifyDriver() {}
-    
+    private DesktopNotifyDriver() {
+    }
+
     /**
      * Invoked by DesktopNotify, adds a notification to the queue. Notifications
      * are shown only when there is room for them to fit in the screen.
-     * 
+     *
      * @param window a <code>DesktopNotify</code> object
      */
-    protected static void postPane(DesktopNotify window){
-        if(frame==null){
+    static void postPane(DesktopNotify window) {
+        if (frame == null) {
             boolean bool = JDialog.isDefaultLookAndFeelDecorated();
             JDialog.setDefaultLookAndFeelDecorated(false);
             frame = new DesktopLayoutFrame();
             JDialog.setDefaultLookAndFeelDecorated(bool);
         }
-        if(!frame.isVisible()) frame.setVisible(true);
+        if (!frame.isVisible()) frame.setVisible(true);
         window.setWidth(300);
         window.sortMessage();
         window.setVisible(true);
         windows.add(window);
         sparkControlThread();
     }
-    
+
     /**
      * Starts the thread used to show and control the notifications, if
      * necessary.
      */
-    private static void sparkControlThread(){
-        if(tredo == null){
-            tredo = new Thread(new Runnable(){@Override public void run() {
-                DesktopNotify.logDebug("NotifyDriver", Thread.currentThread().getName()+" started.");
+    private static void sparkControlThread() {
+        if (tredo == null) {
+            tredo = new Thread(() -> {
+                DesktopNotify.logDebug("NotifyDriver", Thread.currentThread().getName() + " started.");
                 frame.finished = false;
                 while (!frame.finished) {
                     frame.repaint();
-                    try{
+                    try {
                         Thread.sleep(20); //FPS> 10:Super-high, 20: High, 40: Normal, 80: Low
-                    }catch(InterruptedException ex){}
+                    } catch (InterruptedException ignored) {
+                    }
                 }
                 frame.dispose();
                 tredo = null;
-                DesktopNotify.logDebug("NotifyDriver", Thread.currentThread().getName()+" finished.");
-            }},"DesktopNotify Driver Thread");
+                DesktopNotify.logDebug("NotifyDriver", Thread.currentThread().getName() + " finished.");
+            }, "DesktopNotify Driver Thread");
             tredo.start();
         }
     }
@@ -88,37 +91,38 @@ public final class DesktopNotifyDriver {
     /**
      * Utilitary method for gathering the FontMetrics of a given Font.
      * Made because of laziness.
+     *
      * @param font A Font.
-     * @return     The FontMetrics in effect for the selected font.
+     * @return The FontMetrics in effect for the selected font.
      */
     protected static FontMetrics getFontMetrics(Font font) {
         return frame.getGraphics().getFontMetrics(font);
     }
-    
+
     /**
      * An undecorated JDialog used to show all the notifications on screen.
      */
     private static class DesktopLayoutFrame extends JDialog {
         Image bg;
         boolean nativeTrans;
-        
-        boolean finished=true;
-        boolean clicked=false;
+
+        boolean finished = true;
+        boolean clicked = false;
 
         public DesktopLayoutFrame() {
-            super((JFrame)null,"DesktopLayoutFrame");
+            super((JFrame) null, "DesktopLayoutFrame");
             setUndecorated(true);
             nativeTrans = Utils.isTranslucencySupported();
-            setBackground(new Color(0,0,0,nativeTrans? 0:255));
-            setContentPane(new JComponent(){
+            setBackground(new Color(0, 0, 0, nativeTrans ? 0 : 255));
+            setContentPane(new JComponent() {
                 @Override
-                public void paintComponent(Graphics g){
-                    render((Graphics2D)g);
+                public void paintComponent(Graphics g) {
+                    render((Graphics2D) g);
                 }
             });
             addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent evt){
+                public void mouseClicked(MouseEvent evt) {
                     clicked = true;
                 }
             });
@@ -126,22 +130,23 @@ public final class DesktopNotifyDriver {
             setAlwaysOnTop(true);
             DesktopNotify.logDebug("NotifyDriver", "Desktop Notify Frame deployed.");
         }
-        
+
         @Override
         public void setVisible(boolean visible) {
             boolean bool = isVisible();
             if (visible) {
                 Rectangle screenSize = Utils.getScreenSize();
-                setBounds(screenSize.x+screenSize.width-305, screenSize.y,
-                          300, screenSize.height-5);
+                setBounds(screenSize.x + screenSize.width - 305, screenSize.y,
+                        300, screenSize.height - 5);
                 if (!bool && !nativeTrans)
                     bg = Utils.getBackgroundCap(getBounds());
             }
             super.setVisible(visible);
         }
-        
+
         /**
          * Paints the window contents.
+         *
          * @param rd a graphics2D object received from the original paint event.
          */
         public void render(Graphics2D rd) {
@@ -171,9 +176,7 @@ public final class DesktopNotifyDriver {
                                     if (window.getAction() != null) {
                                         final DesktopNotify w = window;
                                         final long lf = l;
-                                        java.awt.EventQueue.invokeLater(new Runnable(){@Override public void run(){
-                                            w.getAction().actionPerformed(new ActionEvent(w, ActionEvent.ACTION_PERFORMED, "fireAction", lf, 0));
-                                        }});
+                                        java.awt.EventQueue.invokeLater(() -> w.getAction().actionPerformed(new ActionEvent(w, ActionEvent.ACTION_PERFORMED, "fireAction", lf, 0)));
                                     }
                                     if (window.expTime() == Long.MAX_VALUE) {
                                         window.timeOut = l - window.popupStart + 500;

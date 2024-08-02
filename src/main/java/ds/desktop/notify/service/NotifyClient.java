@@ -47,7 +47,7 @@ public class NotifyClient extends NotifyService {
             if (timeout != null && !sendAndCheck("--timeout", String.valueOf(timeout), "OK")) return;
             if (themeName != null && !sendAndCheck("--theme", themeName, "OK")) return;
             sendAndCheck("POST", "", "DONE");
-        } catch (IOException ex) {
+        } catch (IOException ignored) {
 
         } finally {
             disconnect();

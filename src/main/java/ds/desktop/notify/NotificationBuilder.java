@@ -38,8 +38,9 @@ import java.awt.event.ActionListener;
  *     {@code builder.buildAndReset().show();}</li>
  * </ol>
  * This class is reusable and not thread-safe.
+ *
  * @author DragShot
- * @since  05/21/2016 (0.8)
+ * @since 05/21/2016 (0.8)
  */
 public class NotificationBuilder {
     private String title;
@@ -62,6 +63,7 @@ public class NotificationBuilder {
 
     /**
      * Sets the title for the notification to build.
+     *
      * @param title The title.
      * @return This builder, just to chain calls.
      */
@@ -72,6 +74,7 @@ public class NotificationBuilder {
 
     /**
      * Sets the message for the notification to build.
+     *
      * @param message The message.
      * @return This builder, just to chain calls.
      */
@@ -82,6 +85,7 @@ public class NotificationBuilder {
 
     /**
      * Sets the icon for the notification to build.
+     *
      * @param icon The icon.
      * @return This builder, just to chain calls.
      */
@@ -92,6 +96,7 @@ public class NotificationBuilder {
 
     /**
      * Sets the type of notification to build.
+     *
      * @param type The type of notification.
      * @return This builder, just to chain calls.
      */
@@ -103,6 +108,7 @@ public class NotificationBuilder {
     /**
      * Sets the prefered orientation of the text to be displayed, this
      * determines the default text alignment.
+     *
      * @param orientation The text orientation, either
      *                    {@link DesktopNotify#LEFT_TO_RIGHT} or
      *                    {@link DesktopNotify#RIGHT_TO_LEFT}.
@@ -116,6 +122,7 @@ public class NotificationBuilder {
     /**
      * Sets the timeout for the notification to build. Setting 0 will make the
      * built notification to stay on screen until the user clicks it.
+     *
      * @param timeOut The maximum time in milliseconds this notification will
      *                stay on screen.
      * @return This builder, just to chain calls.
@@ -127,6 +134,7 @@ public class NotificationBuilder {
 
     /**
      * Sets the ActionListener to use in the notification to build.
+     *
      * @param action The ActionListener to use in the notification.
      * @return This builder, just to chain calls.
      */
@@ -137,6 +145,7 @@ public class NotificationBuilder {
 
     /**
      * Sets the theme to use in the notification to build.
+     *
      * @param theme The theme to use in the notification.
      * @return This builder, just to chain calls.
      */
@@ -144,20 +153,21 @@ public class NotificationBuilder {
         this.theme = theme;
         return this;
     }
-    
+
     /**
      * Builds a new <code>DesktopNotify</code> object. Once you've got to this
      * point, apend a call to {@link DesktopNotify#show} to make it appear
      * inmmediately or just hold onto it until you need to show it.
      * You may continue from the current state in order to customize and build
      * a new notification.
+     *
      * @return A brand new and fully customized <code>DesktopNotify</code>
-     *         object for it to be used in any of your evil interests.
+     * object for it to be used in any of your evil interests.
      */
     public DesktopNotify build() {
         if (title == null && message == null)
             throw new IllegalStateException("The notification lacks of any "
-                                          + "text to show!");
+                    + "text to show!");
         DesktopNotify pane = new DesktopNotify(title, message, type, orientation, icon);
         pane.setTimeout(timeOut);
         pane.setAction(action);
@@ -184,8 +194,9 @@ public class NotificationBuilder {
      * builder for you to begin bilding the next one from scratch. Once you've
      * got to this point, apend a call to {@link DesktopNotify#show} to make it
      * appear inmmediately or just hold onto it until you need to show it.
+     *
      * @return A brand new and fully customized <code>DesktopNotify</code>
-     *         object for it to be used in any of your evil interests.
+     * object for it to be used in any of your evil interests.
      */
     public DesktopNotify buildAndReset() {
         DesktopNotify pane = build();

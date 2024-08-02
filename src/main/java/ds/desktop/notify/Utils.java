@@ -147,7 +147,7 @@ public class Utils {
             //Check if sun.java2d.SunGraphicsEnvironment.getUsableBounds()
             //is available.
             try {
-                Class sunGE = Class.forName("sun.java2d.SunGraphicsEnvironment");
+                Class<?> sunGE = Class.forName("sun.java2d.SunGraphicsEnvironment");
                 Method[] meths = sunGE.getDeclaredMethods();
                 doHack = -1;
                 for (Method meth : meths) {

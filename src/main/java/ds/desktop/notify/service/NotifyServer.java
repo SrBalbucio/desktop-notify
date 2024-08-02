@@ -57,21 +57,13 @@ public class NotifyServer extends NotifyService {
             alive = false;
         }
         if (alive) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    DesktopNotify.logInfo("NotifyServer", "Listen server started");
-                    while (alive) {
-                        try {
-                            final Socket socket = server.accept();
-                            executor.submit(new Runnable() {
-                                @Override
-                                public void run() {
-                                    socketOps(socket);
-                                }
-                            });
-                        } catch (IOException ex) {
-                        }
+            new Thread(() -> {
+                DesktopNotify.logInfo("NotifyServer", "Listen server started");
+                while (alive) {
+                    try {
+                        final Socket socket = server.accept();
+                        executor.submit(() -> socketOps(socket));
+                    } catch (IOException ex) {
                     }
                 }
             }, "Notification service").start();
@@ -150,7 +142,7 @@ public class NotifyServer extends NotifyService {
                         resp = "DONE";
                         lineUp = false;
                     } else if (req.startsWith("SHUTDOWN")) {
-                        new Thread(() -> stop()).start();
+                        new Thread(this::stop).start();
                         resp = "OK";
                         lineUp = false;
                     }
