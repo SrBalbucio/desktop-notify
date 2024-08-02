@@ -4,6 +4,9 @@
  */
 package ds.desktop.notify;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.awt.AlphaComposite;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -287,6 +290,12 @@ public class DesktopNotify {
 
     int w = 0;
     int h = 0;
+    /**
+     * -- GETTER --
+     *
+     * @return <code>true</code> if this notification is currently being shown.
+     */
+    @Getter
     boolean visible = false;
     boolean markedForHide = false;
 
@@ -297,7 +306,20 @@ public class DesktopNotify {
 
     /**
      * An action to perform when the notification is clicked.
+     * -- SETTER --
+     *  Allows to bind an action to this notification. It will be executed when
+     *  the notification gets clicked. Notifications with an action set will wait
+     *  for the user to click them.
+     *
+     *
+     * -- GETTER --
+     *
+     @param action he ActionListener to bind to this notification.
+      * @return the ActionListener binded to this notification.
+
      */
+    @Getter
+    @Setter
     ActionListener action;
 
     /**
@@ -328,13 +350,6 @@ public class DesktopNotify {
     }
 
     /**
-     * @return The <code>NotifyTheme</code> in use for this notification.
-     */
-    public NotifyTheme getTheme() {
-        return theme;
-    }
-
-    /**
      * Allows to set a <code>NotifyTheme</code> for this notification. One of
      * these defines stuff as the colors for text and background, the fonts and
      * even images for the default icons.
@@ -343,24 +358,6 @@ public class DesktopNotify {
      */
     public void setTheme(NotifyTheme theme) {
         if (theme != null) this.theme = theme;
-    }
-
-    /**
-     * @return the ActionListener binded to this notification.
-     */
-    public ActionListener getAction() {
-        return action;
-    }
-
-    /**
-     * Allows to bind an action to this notification. It will be executed when
-     * the notification gets clicked. Notifications with an action set will wait
-     * for the user to click them.
-     *
-     * @param action he ActionListener to bind to this notification.
-     */
-    public void setAction(ActionListener action) {
-        this.action = action;
     }
 
     /**
@@ -398,13 +395,6 @@ public class DesktopNotify {
 
     protected void setWidth(int w) {
         this.w = w;
-    }
-
-    /**
-     * @return <code>true</code> if this notification is currently being shown.
-     */
-    public boolean isVisible() {
-        return visible;
     }
 
     /**
