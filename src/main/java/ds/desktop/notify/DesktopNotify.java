@@ -444,16 +444,13 @@ public class DesktopNotify {
         }
         rd.setPaint(new GradientPaint(0, (title.isEmpty() ? 0 : 25),
                 /*hover? new Color(50,57,65):*/theme.bgGrad[0],
-                0, h, theme.bgGrad[highl + 1]/*new Color(theme.bgGrad[0].getRed()+(int)((theme.bgGrad[1].getRed()-theme.bgGrad[0].getRed())*highl/20.0F),
-                                theme.bgGrad[0].getGreen()+(int)((theme.bgGrad[1].getGreen()-theme.bgGrad[0].getGreen())*highl/20.0F),
-                                theme.bgGrad[0].getBlue()+(int)((theme.bgGrad[1].getBlue()-theme.bgGrad[0].getBlue())*highl/20.0F),
-                120+(int)(135*highl/20.0F))*//*hover? new Color(0x3B4B5B):new Color(50,50,50,120)*/, false));
+                0, h, theme.bgGrad[highl + 1], false));
         if (hover && highl < 20) highl++;
         if (!hover && highl > 0) highl--;
-        rd.fillRect(0, 0, w, h);
+        rd.fillRoundRect(0, 0, w, h, 20, 20);
         rd.setPaint(null);
         rd.setColor(theme.borderColor);
-        rd.drawRect(0, 0, w - 1, h - 1);
+        rd.drawRoundRect(0, 0, w - 1, h - 1, 20,20);
         if (i == -1) {
             int titleH = getLineHeight(theme.titleFont);
             int textH = getLineHeight(theme.contentFont);

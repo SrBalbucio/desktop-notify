@@ -4,6 +4,8 @@
  */
 package ds.desktop.notify;
 
+import lombok.Getter;
+
 import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -23,6 +25,8 @@ import java.util.Arrays;
  * @author DragShot
  */
 public class Utils {
+
+    private static GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
     /**
      * Integer ID for other Windows versions, like Me, 2K and 9x
      */
@@ -66,13 +70,19 @@ public class Utils {
 
     /**
      * Integer ID that represents the current OS the VM is running on.
+     * <p>
+     * <p>
+     * -- GETTER --
      *
+     * @return The integer ID that represents the current OS this VM is running
+     * on.
      * @see #WINDOWS
      * @see #MAC_OS
      * @see #LINUX
      * @see #UNIX
      * @see #OTHER
      */
+    @Getter
     static int operativeSystem;
     /**
      * The area available to deploy the notifications window.
@@ -107,30 +117,6 @@ public class Utils {
     }
 
     /**
-     * @return The integer ID that represents the current OS this VM is running
-     * on.
-     * @see #WINDOWS
-     * @see #MAC_OS
-     * @see #LINUX
-     * @see #UNIX
-     * @see #OTHER
-     */
-    public static int getOperativeSystem() {
-        return operativeSystem;
-    }
-
-    /**
-     * An integer flag for <code>getScreenSize()</code>.<br/><br/>
-     * Values:<br/>
-     * 0: Check if sun.java2d.SunGraphicsEnvironment.getUsableBounds() is
-     * available.<br/>
-     * 1: Class/method is available.<br/>
-     * -1: Class/method is not available.
-     */
-    private static int doHack = 0;
-    private static Method getUsableBounds = null;
-
-    /**
      * Checks the area available in the desktop, excluding the taskbar.
      * In order to do this, an attempt to call
      * <code>sun.java2d.SunGraphicsEnvironment.getUsableBounds()</code> is
@@ -141,52 +127,8 @@ public class Utils {
      * @return A Rectangle with the usable area for the notifications.
      */
     public static Rectangle getScreenSize() {
-        //Class sunGE;
-        //Method getUsableBounds = null;
-        if (doHack == 0) {
-            //Check if sun.java2d.SunGraphicsEnvironment.getUsableBounds()
-            //is available.
-            try {
-                Class<?> sunGE = Class.forName("sun.java2d.SunGraphicsEnvironment");
-                Method[] meths = sunGE.getDeclaredMethods();
-                doHack = -1;
-                for (Method meth : meths) {
-                    //System.out.println(meth.toString());
-                    if (meth.getName().equals("getUsableBounds")
-                            && Arrays.equals(meth.getParameterTypes(),
-                            new Class[]{java.awt.GraphicsDevice.class})
-                            && meth.getExceptionTypes().length == 0
-                            && meth.getReturnType()
-                            .equals(java.awt.Rectangle.class)) {
-                        //We found it!
-                        getUsableBounds = meth;
-                        doHack = 1;
-                        break;
-                    }
-                }
-            } catch (ClassNotFoundException ex) {
-                doHack = -1;
-            }
-        }
-        if (doHack == 1/*Utils.getOperativeSystem()<9*/) { //Use a little hack
-            try {
-                Frame frame = new Frame();
-                GraphicsConfiguration config = frame.getGraphicsConfiguration();
-                //screen = sun.java2d.SunGraphicsEnvironment.getUsableBounds(config.getDevice());
-                screen = (Rectangle)
-                        getUsableBounds.invoke(null, config.getDevice());
-                frame.dispose();
-            } catch (Exception ex) {
-                doHack = -1;
-            }
-        }
-        if (doHack != 1) { //Do it the traditional way
-            Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-            screen = new Rectangle(0, 0, size.width, size.height);
-        }
-        DesktopNotify.logDebug("NotifyUtils", "Current workspace: "
-                + screen.width + "x" + screen.height + "px");
-        return screen;
+        GraphicsDevice device = env.getDefaultScreenDevice();
+        return env.getMaximumWindowBounds();
     }
 
     /**

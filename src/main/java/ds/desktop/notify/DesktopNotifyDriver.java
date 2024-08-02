@@ -4,19 +4,12 @@
  */
 package ds.desktop.notify;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -30,7 +23,7 @@ public final class DesktopNotifyDriver {
     /**
      * The list of notifications currently on queue.
      */
-    static ArrayList<DesktopNotify> windows = new ArrayList<>();
+    static List<DesktopNotify> windows = new ArrayList<>();
     /**
      * The window used to show the notifications.
      */
@@ -103,14 +96,14 @@ public final class DesktopNotifyDriver {
      * An undecorated JDialog used to show all the notifications on screen.
      */
     private static class DesktopLayoutFrame extends JDialog {
-        Image bg;
-        boolean nativeTrans;
 
-        boolean finished = true;
-        boolean clicked = false;
+        private Image bg;
+        private boolean nativeTrans;
+        private boolean finished = true;
+        private boolean clicked = false;
 
         public DesktopLayoutFrame() {
-            super((JFrame) null, "DesktopLayoutFrame");
+            super((Frame) null, "Desktop Notify");
             setUndecorated(true);
             nativeTrans = Utils.isTranslucencySupported();
             setBackground(new Color(0, 0, 0, nativeTrans ? 0 : 255));
@@ -136,8 +129,8 @@ public final class DesktopNotifyDriver {
             boolean bool = isVisible();
             if (visible) {
                 Rectangle screenSize = Utils.getScreenSize();
-                setBounds(screenSize.x + screenSize.width - 305, screenSize.y,
-                        300, screenSize.height - 5);
+                setBounds(screenSize.x + screenSize.width - 310, screenSize.y,
+                        300, screenSize.height - 10);
                 if (!bool && !nativeTrans)
                     bg = Utils.getBackgroundCap(getBounds());
             }
@@ -152,11 +145,16 @@ public final class DesktopNotifyDriver {
         public void render(Graphics2D rd) {
             Point p = getMousePosition();
             finished = false;
+
             int x = 0, y = getHeight();
             long l = System.currentTimeMillis();
+
             if (windows.isEmpty()) finished = true;
+
             int cur = Cursor.DEFAULT_CURSOR;
+
             if (!nativeTrans) rd.drawImage(bg, 0, 0, this);
+
             for (int i = 0; i < windows.size(); i++) {
                 DesktopNotify window = windows.get(i);
                 if (window.isVisible()) {
@@ -164,6 +162,7 @@ public final class DesktopNotifyDriver {
                     if (window.popupStart == 0) {
                         window.popupStart = System.currentTimeMillis();
                     }
+
                     if (y > 0) {
                         boolean hover = false;
                         if (p != null) {
@@ -176,7 +175,7 @@ public final class DesktopNotifyDriver {
                                     if (window.getAction() != null) {
                                         final DesktopNotify w = window;
                                         final long lf = l;
-                                        java.awt.EventQueue.invokeLater(() -> w.getAction().actionPerformed(new ActionEvent(w, ActionEvent.ACTION_PERFORMED, "fireAction", lf, 0)));
+                                        EventQueue.invokeLater(() -> w.getAction().actionPerformed(new ActionEvent(w, ActionEvent.ACTION_PERFORMED, "fireAction", lf, 0)));
                                     }
                                     if (window.expTime() == Long.MAX_VALUE) {
                                         window.timeOut = l - window.popupStart + 500;
@@ -184,7 +183,9 @@ public final class DesktopNotifyDriver {
                                 }
                             }
                         }
+
                         window.render(x, y, hover, rd, l);
+
                         if (window.markedForHide) {
                             window.timeOut = l - window.popupStart + 500;
                             window.markedForHide = false;
@@ -192,12 +193,14 @@ public final class DesktopNotifyDriver {
                     } else {
                         window.popupStart = l;
                     }
+
                     if (l > window.expTime() || (y <= 0 && window.markedForHide)) {
                         window.markedForHide = false;
                         window.setVisible(false);
                         windows.remove(window);
                         i--;
                     }
+
                     y -= 5;
                 }
             }

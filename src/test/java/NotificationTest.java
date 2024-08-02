@@ -7,5 +7,13 @@ public class NotificationTest {
                 "This is a notification",
                 "With DS Desktop Notify, displaying notifications on the screen is quick and easy!",
                 DesktopNotify.SUCCESS);
+        DesktopNotify.showDesktopMessage(
+                "This is a notification",
+                "With DS Desktop Notify, displaying notifications on the screen is quick and easy!",
+                DesktopNotify.INFORMATION);
+        DesktopNotify.showDesktopMessage(
+                "This is a notification",
+                "With DS Desktop Notify, displaying notifications on the screen is quick and easy!",
+                DesktopNotify.ERROR);
     }
 }
