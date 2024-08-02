@@ -46,6 +46,7 @@ public class NotifyTheme {
      * @param contentFont the font which will be used for texts.
      */
     @Setter
+    @Getter
     protected Font contentFont;
     /**
      * The color to use to paint the notification border
@@ -58,18 +59,22 @@ public class NotifyTheme {
     /**
      * The color to use to paint the title
      */
+    @Getter
     protected Color titleColor;
     /**
      * The color to use to paint the description text
      */
+    @Getter
     protected Color contentColor;
     /**
      * The colors to use to paint the background
      */
+    @Getter
     protected Color[] bgGrad;
     /**
      * The set of icons to use for each notification type
      */
+    @Getter
     protected Image[] iconSet;
 
     /**

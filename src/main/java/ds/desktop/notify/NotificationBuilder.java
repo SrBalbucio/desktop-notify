@@ -4,6 +4,8 @@
  */
 package ds.desktop.notify;
 
+import ds.desktop.notify.model.Notify;
+
 import java.awt.Image;
 import java.awt.event.ActionListener;
 
@@ -21,7 +23,7 @@ import java.awt.event.ActionListener;
  *     Just look at how easy is to chain calls with this thing.</li>
  * <li>Build your notification by calling {@link #build()}.<br>
  *     {@code DesktopNotify notification = builder.build();}</li>
- * <li>When you're ready to show the notification, call {@link DesktopNotify#show()}.<br>
+ * <li>When you're ready to show the notification, call {@link Notify#show()}.<br>
  *     {@code notification.show();}<br>
  *     You may prefer to chain the calls if you want to show it right now.<br>
  *     {@code builder.build().show();}<br>
@@ -43,6 +45,7 @@ import java.awt.event.ActionListener;
  * @since 05/21/2016 (0.8)
  */
 public class NotificationBuilder {
+
     private String title;
     private String message;
     private Image icon;
@@ -156,7 +159,7 @@ public class NotificationBuilder {
 
     /**
      * Builds a new <code>DesktopNotify</code> object. Once you've got to this
-     * point, apend a call to {@link DesktopNotify#show} to make it appear
+     * point, apend a call to {@link Notify#show} to make it appear
      * inmmediately or just hold onto it until you need to show it.
      * You may continue from the current state in order to customize and build
      * a new notification.
@@ -164,11 +167,11 @@ public class NotificationBuilder {
      * @return A brand new and fully customized <code>DesktopNotify</code>
      * object for it to be used in any of your evil interests.
      */
-    public DesktopNotify build() {
+    public Notify build() {
         if (title == null && message == null)
             throw new IllegalStateException("The notification lacks of any "
                     + "text to show!");
-        DesktopNotify pane = new DesktopNotify(title, message, type, orientation, icon);
+        Notify pane = new Notify(title, message, type, orientation, icon);
         pane.setTimeout(timeOut);
         pane.setAction(action);
         pane.setTheme(theme);
@@ -192,14 +195,14 @@ public class NotificationBuilder {
     /**
      * Builds a new <code>DesktopNotify</code> object, and then resets this
      * builder for you to begin bilding the next one from scratch. Once you've
-     * got to this point, apend a call to {@link DesktopNotify#show} to make it
+     * got to this point, apend a call to {@link Notify#show} to make it
      * appear inmmediately or just hold onto it until you need to show it.
      *
      * @return A brand new and fully customized <code>DesktopNotify</code>
      * object for it to be used in any of your evil interests.
      */
-    public DesktopNotify buildAndReset() {
-        DesktopNotify pane = build();
+    public Notify buildAndReset() {
+        Notify pane = build();
         reset();
         return pane;
     }

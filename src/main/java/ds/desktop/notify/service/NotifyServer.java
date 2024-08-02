@@ -4,6 +4,7 @@
  */
 package ds.desktop.notify.service;
 
+import ds.desktop.notify.DSLogger;
 import ds.desktop.notify.DesktopNotify;
 import ds.desktop.notify.NotificationBuilder;
 import ds.desktop.notify.NotifyTheme;
@@ -53,12 +54,12 @@ public class NotifyServer extends NotifyService {
             server.bind(new InetSocketAddress("localhost", LISTENING_PORT), 50);
             alive = true;
         } catch (IOException ex) {
-            DesktopNotify.logError("NotifyServer", "Unable to set up listen server!", ex);
+            DSLogger.logError("NotifyServer", "Unable to set up listen server!", ex);
             alive = false;
         }
         if (alive) {
             new Thread(() -> {
-                DesktopNotify.logInfo("NotifyServer", "Listen server started");
+                DSLogger.logInfo("NotifyServer", "Listen server started");
                 while (alive) {
                     try {
                         final Socket socket = server.accept();
@@ -152,10 +153,10 @@ public class NotifyServer extends NotifyService {
                     }
                 } catch (Exception ex) {
                     resp = "EXCEPTION " + ex.getClass() + " " + ex.getMessage();
-                    DesktopNotify.logError("NotifyServer", "Exception during operation: ", ex);
+                    DSLogger.logError("NotifyServer", "Exception during operation: ", ex);
                 } catch (Error err) {
                     resp = "SYSERROR " + err.getClass() + " " + err.getMessage();
-                    DesktopNotify.logError("NotifyServer", "Error during operation: ", err);
+                    DSLogger.logError("NotifyServer", "Error during operation: ", err);
                 } finally {
                     if (req != null) {
                         out.println(resp);
@@ -164,9 +165,9 @@ public class NotifyServer extends NotifyService {
                 }
             }
         } catch (Exception ex) {
-            DesktopNotify.logError("NotifyServer", "Exception during connection: ", ex);
+            DSLogger.logError("NotifyServer", "Exception during connection: ", ex);
         } catch (Error err) {
-            DesktopNotify.logError("NotifyServer", "Error during connection: ", err);
+            DSLogger.logError("NotifyServer", "Error during connection: ", err);
         }
     }
 
@@ -190,7 +191,7 @@ public class NotifyServer extends NotifyService {
                 server.close();
             } catch (Exception ex) {
             }
-            DesktopNotify.logInfo("NotifyServer", "Listen server stopped");
+            DSLogger.logInfo("NotifyServer", "Listen server stopped");
         }
     }
 

@@ -4,6 +4,8 @@
  */
 package ds.desktop.notify;
 
+import ds.desktop.notify.model.Notify;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -23,7 +25,7 @@ public final class DesktopNotifyDriver {
     /**
      * The list of notifications currently on queue.
      */
-    static List<DesktopNotify> windows = new ArrayList<>();
+    static List<Notify> windows = new ArrayList<>();
     /**
      * The window used to show the notifications.
      */
@@ -42,7 +44,7 @@ public final class DesktopNotifyDriver {
      *
      * @param window a <code>DesktopNotify</code> object
      */
-    static void postPane(DesktopNotify window) {
+    public static void postPane(Notify window) {
         if (frame == null) {
             boolean bool = JDialog.isDefaultLookAndFeelDecorated();
             JDialog.setDefaultLookAndFeelDecorated(false);
@@ -50,7 +52,7 @@ public final class DesktopNotifyDriver {
             JDialog.setDefaultLookAndFeelDecorated(bool);
         }
         if (!frame.isVisible()) frame.setVisible(true);
-        window.setWidth(300);
+        window.setW(300);
         window.sortMessage();
         window.setVisible(true);
         windows.add(window);
@@ -64,7 +66,7 @@ public final class DesktopNotifyDriver {
     private static void sparkControlThread() {
         if (tredo == null) {
             tredo = new Thread(() -> {
-                DesktopNotify.logDebug("NotifyDriver", Thread.currentThread().getName() + " started.");
+                DSLogger.logDebug("NotifyDriver", Thread.currentThread().getName() + " started.");
                 frame.finished = false;
                 while (!frame.finished) {
                     frame.repaint();
@@ -75,7 +77,7 @@ public final class DesktopNotifyDriver {
                 }
                 frame.dispose();
                 tredo = null;
-                DesktopNotify.logDebug("NotifyDriver", Thread.currentThread().getName() + " finished.");
+                DSLogger.logDebug("NotifyDriver", Thread.currentThread().getName() + " finished.");
             }, "DesktopNotify Driver Thread");
             tredo.start();
         }
@@ -88,7 +90,7 @@ public final class DesktopNotifyDriver {
      * @param font A Font.
      * @return The FontMetrics in effect for the selected font.
      */
-    protected static FontMetrics getFontMetrics(Font font) {
+    public static FontMetrics getFontMetrics(Font font) {
         return frame.getGraphics().getFontMetrics(font);
     }
 
@@ -121,7 +123,7 @@ public final class DesktopNotifyDriver {
             });
             setFocusableWindowState(false);
             setAlwaysOnTop(true);
-            DesktopNotify.logDebug("NotifyDriver", "Desktop Notify Frame deployed.");
+            DSLogger.logDebug("NotifyDriver", "Desktop Notify Frame deployed.");
         }
 
         @Override
@@ -156,29 +158,29 @@ public final class DesktopNotifyDriver {
             if (!nativeTrans) rd.drawImage(bg, 0, 0, this);
 
             for (int i = 0; i < windows.size(); i++) {
-                DesktopNotify window = windows.get(i);
+                Notify window = windows.get(i);
                 if (window.isVisible()) {
-                    y -= window.h;
-                    if (window.popupStart == 0) {
-                        window.popupStart = System.currentTimeMillis();
+                    y -= window.getH();
+                    if (window.getPopupStart() == 0) {
+                        window.setPopupStart(System.currentTimeMillis());
                     }
 
                     if (y > 0) {
                         boolean hover = false;
                         if (p != null) {
-                            if (p.y > y && p.y < y + window.h) {
+                            if (p.y > y && p.y < y + window.getH()) {
                                 hover = true;
                                 if (window.getAction() != null) {
                                     cur = Cursor.HAND_CURSOR;
                                 }
                                 if (clicked) {
                                     if (window.getAction() != null) {
-                                        final DesktopNotify w = window;
+                                        final Notify w = window;
                                         final long lf = l;
                                         EventQueue.invokeLater(() -> w.getAction().actionPerformed(new ActionEvent(w, ActionEvent.ACTION_PERFORMED, "fireAction", lf, 0)));
                                     }
                                     if (window.expTime() == Long.MAX_VALUE) {
-                                        window.timeOut = l - window.popupStart + 500;
+                                        window.setTimeout(l - window.getPopupStart() + 500);
                                     }
                                 }
                             }
@@ -186,16 +188,16 @@ public final class DesktopNotifyDriver {
 
                         window.render(x, y, hover, rd, l);
 
-                        if (window.markedForHide) {
-                            window.timeOut = l - window.popupStart + 500;
-                            window.markedForHide = false;
+                        if (window.isMarkedForHide()) {
+                            window.setTimeout(l - window.getPopupStart() + 500);
+                            window.setMarkedForHide(false);
                         }
                     } else {
-                        window.popupStart = l;
+                        window.setPopupStart(l);
                     }
 
-                    if (l > window.expTime() || (y <= 0 && window.markedForHide)) {
-                        window.markedForHide = false;
+                    if (l > window.expTime() || (y <= 0 && window.isMarkedForHide())) {
+                        window.setMarkedForHide(false);
                         window.setVisible(false);
                         windows.remove(window);
                         i--;
