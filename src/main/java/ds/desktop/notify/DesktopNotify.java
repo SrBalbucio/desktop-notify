@@ -4,6 +4,7 @@
  */
 package ds.desktop.notify;
 
+import ds.desktop.notify.model.Notify;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -259,7 +260,7 @@ public class DesktopNotify {
      */
     public static void showDesktopMessage(String title, String message,
                                           int type, Image icon, ActionListener action, long maxTimeMillis) {
-        DesktopNotify pane = new DesktopNotify(title, message, type, defTextOrientation, icon);
+        Notify pane = new Notify(title, message, type, defTextOrientation, icon);
         pane.setTimeout(maxTimeMillis);
         pane.setAction(action);
         pane.show();
