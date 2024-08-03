@@ -249,7 +249,7 @@ public class Notify {
             String[] words = str.split(" ");
             for (String word : words) {
                 if (ftm.stringWidth(builder.toString()) + ftm.stringWidth(word)
-                        < (w - 12 - ((icon == null && type == NotifyType.NONE) ? 0 : 38))) {
+                        < (w - 12 - ((icon == null && type == NotifyType.NONE) ? 0 : (h - 5)))) {
                     builder.append(word).append(" ");
                 } else {
                     list.add(builder.toString());

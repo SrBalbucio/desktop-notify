@@ -34,5 +34,11 @@ public class NotificationTest {
                 .setType(NotifyType.INFORMATION).setTheme(NotifyThemes.SLIM_LIGHT.getTheme())
                         .setIcon(Toolkit.getDefaultToolkit().createImage(ImageIO.read(NotificationTest.class.getResourceAsStream("/img.png")).getSource()))
                 .build());
+
+        DesktopNotify.show(new NotificationBuilder()
+                .setTitle("Slim Theme").setMessage("Minh")
+                .setType(NotifyType.INFORMATION).setTheme(NotifyThemes.SLIM_LIGHT.getTheme())
+                .setIcon(Toolkit.getDefaultToolkit().createImage(ImageIO.read(NotificationTest.class.getResourceAsStream("/img.png")).getSource()))
+                .build());
     }
 }
