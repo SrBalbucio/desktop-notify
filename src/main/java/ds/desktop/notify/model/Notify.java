@@ -21,8 +21,8 @@ public class Notify {
     private String title;
     private String message;
     private Image icon;
-    private int type;
-    private int orientation;
+    private NotifyType type;
+    private NotifyDirection orientation;
 
     /**
      * A <code>NotifyTheme</code> object with the color and Font parameters to
@@ -84,8 +84,8 @@ public class Notify {
      * @param icon        The icon to display. Can be {@code null} when the
      *                    notification isn't meant to have one.
      */
-    public Notify(String title, String message, int type,
-                  int orientation, Image icon) {
+    public Notify(String title, String message, NotifyType type,
+                  NotifyDirection orientation, Image icon) {
         this.title = (title == null ? "" : title);
         this.message = (message == null ? "" : message);
         this.type = type;
@@ -179,11 +179,11 @@ public class Notify {
             if (!title.isEmpty()) {
                 rd.setColor(theme.getTitleColor());
                 rd.setFont(theme.getTitleFont());
-                int tX = 5 + ((icon == null && type == 0) ? 0 : 38);
+                int tX = 5 + ((icon == null && type == NotifyType.NONE) ? 0 : 38);
                 for (int j = 0; j < tlts.length; j++) {
-                    if (orientation == RIGHT_TO_LEFT) {
+                    if (orientation == NotifyDirection.RIGHT_TO_LEFT) {
                         FontMetrics ftm = DesktopNotifyDriver.getFontMetrics(theme.getTitleFont());
-                        tX = w - 4 - ((icon == null && type == 0) ? 0 : 38) - ftm.stringWidth(tlts[j]);
+                        tX = w - 4 - ((icon == null && type == NotifyType.NONE) ? 0 : 38) - ftm.stringWidth(tlts[j]);
                     }
                     rd.drawString(tlts[j], tX, 20 + (titleH * j));
                 }
@@ -191,11 +191,11 @@ public class Notify {
             if (!message.isEmpty()) {
                 rd.setColor(theme.getContentColor());
                 rd.setFont(theme.getContentFont());
-                int tX = 6 + ((icon == null && type == 0) ? 0 : 38);
+                int tX = 6 + ((icon == null && type == NotifyType.NONE) ? 0 : 38);
                 for (int j = 0; j < msgs.length; j++) {
-                    if (orientation == RIGHT_TO_LEFT) {
+                    if (orientation == NotifyDirection.RIGHT_TO_LEFT) {
                         FontMetrics ftm = DesktopNotifyDriver.getFontMetrics(theme.getContentFont());
-                        tX = w - 5 - ((icon == null && type == 0) ? 0 : 38) - ftm.stringWidth(msgs[j]);
+                        tX = w - 5 - ((icon == null && type == NotifyType.NONE) ? 0 : 38) - ftm.stringWidth(msgs[j]);
                     }
                     rd.drawString(msgs[j], tX, 20 + (titleH * tlts.length) + (textH * j));
                 }
@@ -207,9 +207,9 @@ public class Notify {
 //            rd.drawString("X", w-16, 18);
 //        }
         Image icon = this.icon == null ?
-                (type == 0 ? null : theme.getIconSet()[type - 1]) : this.icon;
+                (type == NotifyType.NONE ? null : theme.getIconSet()[type.ordinal() - 1]) : this.icon;
         if (icon != null) {
-            rd.drawImage(icon, orientation == RIGHT_TO_LEFT ? (w - 7 - 32) : 6, (h / 2) - 15, 32, 32, null);
+            rd.drawImage(icon, orientation == NotifyDirection.RIGHT_TO_LEFT ? (w - 7 - 32) : 6, (h / 2) - 15, 32, 32, null);
         }
         rd.setTransform(trans);
         rd.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
@@ -241,7 +241,7 @@ public class Notify {
             String[] words = str.split(" ");
             for (String word : words) {
                 if (ftm.stringWidth(builder.toString()) + ftm.stringWidth(word)
-                        < (w - 12 - ((icon == null && type == 0) ? 0 : 38))) {
+                        < (w - 12 - ((icon == null && type == NotifyType.NONE) ? 0 : 38))) {
                     builder.append(word).append(" ");
                 } else {
                     list.add(builder.toString());

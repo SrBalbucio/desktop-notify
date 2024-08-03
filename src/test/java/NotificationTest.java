@@ -1,4 +1,5 @@
 import ds.desktop.notify.DesktopNotify;
+import ds.desktop.notify.model.NotifyType;
 
 public class NotificationTest {
 
@@ -6,14 +7,14 @@ public class NotificationTest {
         DesktopNotify.showDesktopMessage(
                 "This is a notification",
                 "With DS Desktop Notify, displaying notifications on the screen is quick and easy!",
-                DesktopNotify.SUCCESS);
+                NotifyType.SUCCESS);
         DesktopNotify.showDesktopMessage(
                 "This is a notification",
                 "With DS Desktop Notify, displaying notifications on the screen is quick and easy!",
-                DesktopNotify.INFORMATION);
+                NotifyType.INFORMATION);
         DesktopNotify.showDesktopMessage(
                 "This is a notification",
                 "With DS Desktop Notify, displaying notifications on the screen is quick and easy!",
-                DesktopNotify.ERROR);
+                NotifyType.ERROR);
     }
 }

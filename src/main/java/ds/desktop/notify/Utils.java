@@ -142,9 +142,6 @@ public class Utils {
     public static boolean isTranslucencySupported() {
         boolean nativeTrans;
         if (System.getProperty("java.version").contains("1.6")) {
-            DSLogger.logWarning("NotifyUtils", "Per-pixel translucency is currently not "
-                    + "supported.\nPlease upgrade your JRE to at least Java 7 "
-                    + "to support this feature.");
             nativeTrans = false;
         } else {
             GraphicsEnvironment ge = GraphicsEnvironment
@@ -152,8 +149,6 @@ public class Utils {
             GraphicsDevice gd = ge.getDefaultScreenDevice();
             if (!gd.isWindowTranslucencySupported(GraphicsDevice
                     .WindowTranslucency.PERPIXEL_TRANSLUCENT)) {
-                DSLogger.logError("NotifyUtils", "Error while starting: "
-                        + "Per-pixel translucency is not supported.", null);
                 nativeTrans = false;
             } else nativeTrans = true;
         }

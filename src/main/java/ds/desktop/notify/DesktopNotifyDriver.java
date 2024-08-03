@@ -66,7 +66,6 @@ public final class DesktopNotifyDriver {
     private static void sparkControlThread() {
         if (tredo == null) {
             tredo = new Thread(() -> {
-                DSLogger.logDebug("NotifyDriver", Thread.currentThread().getName() + " started.");
                 frame.finished = false;
                 while (!frame.finished) {
                     frame.repaint();
@@ -77,7 +76,6 @@ public final class DesktopNotifyDriver {
                 }
                 frame.dispose();
                 tredo = null;
-                DSLogger.logDebug("NotifyDriver", Thread.currentThread().getName() + " finished.");
             }, "DesktopNotify Driver Thread");
             tredo.start();
         }
@@ -123,7 +121,6 @@ public final class DesktopNotifyDriver {
             });
             setFocusableWindowState(false);
             setAlwaysOnTop(true);
-            DSLogger.logDebug("NotifyDriver", "Desktop Notify Frame deployed.");
         }
 
         @Override

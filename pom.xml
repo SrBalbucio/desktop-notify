@@ -25,6 +25,11 @@
             <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>balbucio.throwable</groupId>
+            <artifactId>throwable</artifactId>
+            <version>1.1</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>

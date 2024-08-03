@@ -5,6 +5,8 @@
 package ds.desktop.notify;
 
 import ds.desktop.notify.model.Notify;
+import ds.desktop.notify.model.NotifyDirection;
+import ds.desktop.notify.model.NotifyType;
 
 import java.awt.Image;
 import java.awt.event.ActionListener;
@@ -49,8 +51,8 @@ public class NotificationBuilder {
     private String title;
     private String message;
     private Image icon;
-    private int type;
-    private int orientation;
+    private NotifyType type;
+    private NotifyDirection orientation;
     private long timeOut;
     private ActionListener action;
     private NotifyTheme theme;
@@ -59,7 +61,7 @@ public class NotificationBuilder {
      * Default constructor.
      */
     public NotificationBuilder() {
-        type = DesktopNotify.DEFAULT;
+        type = NotifyType.DEFAULT;
         orientation = DesktopNotify.defTextOrientation;
         timeOut = 0L;
     }
@@ -103,7 +105,7 @@ public class NotificationBuilder {
      * @param type The type of notification.
      * @return This builder, just to chain calls.
      */
-    public NotificationBuilder setType(int type) {
+    public NotificationBuilder setType(NotifyType type) {
         this.type = type;
         return this;
     }
@@ -117,7 +119,7 @@ public class NotificationBuilder {
      *                    {@link DesktopNotify#RIGHT_TO_LEFT}.
      * @return This builder, just to chain calls.
      */
-    public NotificationBuilder setTextOrientation(int orientation) {
+    public NotificationBuilder setTextOrientation(NotifyDirection orientation) {
         this.orientation = orientation;
         return this;
     }
@@ -186,7 +188,7 @@ public class NotificationBuilder {
         title = null;
         message = null;
         icon = null;
-        type = DesktopNotify.DEFAULT;
+        type = NotifyType.DEFAULT;
         timeOut = 0L;
         action = null;
         theme = null;

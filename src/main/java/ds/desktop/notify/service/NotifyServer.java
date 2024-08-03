@@ -4,8 +4,6 @@
  */
 package ds.desktop.notify.service;
 
-import ds.desktop.notify.DSLogger;
-import ds.desktop.notify.DesktopNotify;
 import ds.desktop.notify.NotificationBuilder;
 import ds.desktop.notify.NotifyTheme;
 
@@ -22,6 +20,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import balbucio.throwable.Throwable;
+import ds.desktop.notify.model.NotifyDirection;
+import ds.desktop.notify.model.NotifyType;
 
 /**
  * A {@code NotifyServer} runs a notification service for this host. Other
@@ -43,36 +45,27 @@ public class NotifyServer extends NotifyService {
     /**
      * A flag signaling if the service is active or not.
      */
-    private boolean alive;
+    private boolean alive = false;
 
     @Override
     public void start() {
         if (alive) return;
-        try {
+        Throwable.printThrow(() -> {
             executor = Executors.newSingleThreadExecutor();
             server = new ServerSocket();
             server.bind(new InetSocketAddress("localhost", LISTENING_PORT), 50);
             alive = true;
-        } catch (IOException ex) {
-            DSLogger.logError("NotifyServer", "Unable to set up listen server!", ex);
-            alive = false;
-        }
-        if (alive) {
-            new Thread(() -> {
-                DSLogger.logInfo("NotifyServer", "Listen server started");
-                while (alive) {
-                    try {
-                        final Socket socket = server.accept();
-                        executor.submit(() -> socketOps(socket));
-                    } catch (IOException ex) {
-                    }
-                }
-            }, "Notification service").start();
-        }
+//            new Thread(() -> Throwable.silently(() -> {
+//                while (alive) {
+//                    final Socket socket = server.accept();
+//                    executor.submit(() -> socketOps(socket));
+//                }
+//            });
+        });
     }
 
     @Override
-    public void postNotification(String title, String message, Integer type, Integer align, Long timeout, String themeName) {
+    public void postNotification(String title, String message, NotifyType type, NotifyDirection align, Long timeout, String themeName) {
         NotificationBuilder builder = new NotificationBuilder();
         if (title != null) builder.setTitle(title);
         if (message != null) builder.setMessage(message);
@@ -95,80 +88,61 @@ public class NotifyServer extends NotifyService {
      * @param socket The socket to operate on.
      */
     private void socketOps(Socket socket) {
-        boolean lineUp = true;
-        try {
+        Throwable.silently(() -> {
+            boolean lineUp = true;
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
             PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
             String req = null, resp = null;
             String title = null, message = null, themeName = null;
-            Integer type = null, align = null;
+            NotifyType type = null;
+            NotifyDirection align = null;
             Long timeout = null;
+
             while (lineUp) {
-                try {
-                    req = in.readLine();
-                    //System.out.println("IN: " + req);
-                    if (req == null) {
-                        lineUp = false;
-                        resp = null;
-                    } else if (req.startsWith("DESCRIBE")) {
-                        resp = "DSDN 090";
-                    } else if (req.startsWith("BUILD")) {
-                        resp = "READY";
-                    } else if (req.startsWith("--title")) {
-                        req = readValue("--title", req);
-                        title = req;
-                        resp = "OK";
-                    } else if (req.startsWith("--message")) {
-                        req = readValue("--message", req);
-                        message = req;
-                        resp = "OK";
-                    } else if (req.startsWith("--type")) {
-                        req = readValue("--type", req);
-                        type = Integer.parseInt(req);
-                        resp = "OK";
-                    } else if (req.startsWith("--align")) {
-                        req = readValue("--align", req);
-                        align = Integer.parseInt(req);
-                        resp = "OK";
-                    } else if (req.startsWith("--timeout")) {
-                        req = readValue("--timeout", req);
-                        timeout = Long.parseLong(req);
-                        resp = "OK";
-                    } else if (req.startsWith("--theme")) {
-                        req = readValue("--theme", req);
-                        themeName = req;
-                        resp = "OK";
-                    } else if (req.startsWith("POST")) {
-                        postNotification(title, message, type, align, timeout, themeName);
-                        resp = "DONE";
-                        lineUp = false;
-                    } else if (req.startsWith("SHUTDOWN")) {
-                        new Thread(this::stop).start();
-                        resp = "OK";
-                        lineUp = false;
-                    }
-                } catch (SocketException ex) {
-                    if (ex.getMessage().contains("Connection reset")) {
-                        lineUp = false;
-                    }
-                } catch (Exception ex) {
-                    resp = "EXCEPTION " + ex.getClass() + " " + ex.getMessage();
-                    DSLogger.logError("NotifyServer", "Exception during operation: ", ex);
-                } catch (Error err) {
-                    resp = "SYSERROR " + err.getClass() + " " + err.getMessage();
-                    DSLogger.logError("NotifyServer", "Error during operation: ", err);
-                } finally {
-                    if (req != null) {
-                        out.println(resp);
-                        //System.out.println("OUT: " + resp);
-                    }
+                req = in.readLine();
+                //System.out.println("IN: " + req);
+                if (req == null) {
+                    lineUp = false;
+                    resp = null;
+                } else if (req.startsWith("DESCRIBE")) {
+                    resp = "DSDN 090";
+                } else if (req.startsWith("BUILD")) {
+                    resp = "READY";
+                } else if (req.startsWith("--title")) {
+                    req = readValue("--title", req);
+                    title = req;
+                    resp = "OK";
+                } else if (req.startsWith("--message")) {
+                    req = readValue("--message", req);
+                    message = req;
+                    resp = "OK";
+                } else if (req.startsWith("--type")) {
+                    req = readValue("--type", req);
+                    type = NotifyType.valueOf(req);
+                    resp = "OK";
+                } else if (req.startsWith("--align")) {
+                    req = readValue("--align", req);
+                    align = NotifyDirection.valueOf(req);
+                    resp = "OK";
+                } else if (req.startsWith("--timeout")) {
+                    req = readValue("--timeout", req);
+                    timeout = Long.parseLong(req);
+                    resp = "OK";
+                } else if (req.startsWith("--theme")) {
+                    req = readValue("--theme", req);
+                    themeName = req;
+                    resp = "OK";
+                } else if (req.startsWith("POST")) {
+                    postNotification(title, message, type, align, timeout, themeName);
+                    resp = "DONE";
+                    lineUp = false;
+                } else if (req.startsWith("SHUTDOWN")) {
+                    new Thread(this::stop).start();
+                    resp = "OK";
+                    lineUp = false;
                 }
             }
-        } catch (Exception ex) {
-            DSLogger.logError("NotifyServer", "Exception during connection: ", ex);
-        } catch (Error err) {
-            DSLogger.logError("NotifyServer", "Error during connection: ", err);
-        }
+        });
     }
 
     private String readValue(String head, String line) {
@@ -191,7 +165,6 @@ public class NotifyServer extends NotifyService {
                 server.close();
             } catch (Exception ex) {
             }
-            DSLogger.logInfo("NotifyServer", "Listen server stopped");
         }
     }
 

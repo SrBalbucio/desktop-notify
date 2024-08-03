@@ -4,6 +4,9 @@
  */
 package ds.desktop.notify.service;
 
+import ds.desktop.notify.model.NotifyDirection;
+import ds.desktop.notify.model.NotifyType;
+
 /**
  * A {@code NotifyService} makes it possible to centralize control and display
  * notifications in a single process for the current host (either a physical or
@@ -83,7 +86,7 @@ public abstract class NotifyService {
      * @see #DARK_THEME
      * @see #LIGHT_THEME
      */
-    public abstract void postNotification(String title, String message, Integer type, Integer align, Long timeout, String themeName);
+    public abstract void postNotification(String title, String message, NotifyType type, NotifyDirection align, Long timeout, String themeName);
     
     /**
      * Stops the service, in case it's running.

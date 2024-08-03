@@ -5,6 +5,8 @@
 package ds.desktop.notify;
 
 import ds.desktop.notify.model.Notify;
+import ds.desktop.notify.model.NotifyDirection;
+import ds.desktop.notify.model.NotifyType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,16 +32,6 @@ import java.util.ArrayList;
  * @version 0.9
  */
 public class DesktopNotify {
-    //Some constants
-    public static final int DEFAULT = 0;
-    public static final int INFORMATION = 1;
-    public static final int WARNING = 2;
-    public static final int ERROR = 3;
-    public static final int HELP = 4;
-    public static final int TIP = 5;
-    public static final int INPUT_REQUEST = 6;
-    public static final int SUCCESS = 7;
-    public static final int FAIL = 8;
 
     public static final int LEFT_TO_RIGHT = 0;
     public static final int RIGHT_TO_LEFT = 1;
@@ -64,7 +56,7 @@ public class DesktopNotify {
         return DesktopNotify.defTheme;
     }
 
-    protected static int defTextOrientation = LEFT_TO_RIGHT;
+    protected static NotifyDirection defTextOrientation = NotifyDirection.LEFT_TO_RIGHT;
 
     /**
      * Gets the current default text orientation.
@@ -73,7 +65,7 @@ public class DesktopNotify {
      * @see #RIGHT_TO_LEFT
      * @see #LEFT_TO_RIGHT
      */
-    public static int getDefaultTextOrientation() {
+    public static NotifyDirection getDefaultTextOrientation() {
         return defTextOrientation;
     }
 
@@ -85,7 +77,7 @@ public class DesktopNotify {
      * @see #RIGHT_TO_LEFT
      * @see #LEFT_TO_RIGHT
      */
-    public static void setDefaultTextOrientation(int defTextOrientation) {
+    public static void setDefaultTextOrientation(NotifyDirection defTextOrientation) {
         DesktopNotify.defTextOrientation = defTextOrientation;
     }
 
@@ -102,7 +94,7 @@ public class DesktopNotify {
      * @param message The message, if any.
      */
     public static void showDesktopMessage(String title, String message) {
-        showDesktopMessage(title, message, DEFAULT, null, null, 0);
+        showDesktopMessage(title, message, NotifyType.DEFAULT, null, null, 0);
     }
 
     /**
@@ -122,7 +114,7 @@ public class DesktopNotify {
      *                values will be treated as DEFAULT.
      */
     public static void showDesktopMessage(String title, String message,
-                                          int type) {
+                                          NotifyType type) {
         showDesktopMessage(title, message, type, null, null, 0);
     }
 
@@ -144,7 +136,7 @@ public class DesktopNotify {
      *                the user clicks the notification.
      */
     public static void showDesktopMessage(String title, String message,
-                                          int type, ActionListener action) {
+                                          NotifyType type, ActionListener action) {
         showDesktopMessage(title, message, type, null, action, 0);
     }
 
@@ -166,7 +158,7 @@ public class DesktopNotify {
      *                the user clicks the notification.
      */
     public static void showDesktopMessage(String title, String message,
-                                          int type, Image icon, ActionListener action) {
+                                          NotifyType type, Image icon, ActionListener action) {
         showDesktopMessage(title, message, type, icon, action, 0);
     }
 
@@ -189,7 +181,7 @@ public class DesktopNotify {
      *                      it.
      */
     public static void showDesktopMessage(String title, String message,
-                                          int type, long maxTimeMillis) {
+                                          NotifyType type, long maxTimeMillis) {
         showDesktopMessage(title, message, type, null, null, maxTimeMillis);
     }
 
@@ -215,7 +207,7 @@ public class DesktopNotify {
      *                      the user clicks the notification.
      */
     public static void showDesktopMessage(String title, String message,
-                                          int type, long maxTimeMillis, ActionListener action) {
+                                          NotifyType type, long maxTimeMillis, ActionListener action) {
         showDesktopMessage(title, message, type, null, action, maxTimeMillis);
     }
 
@@ -235,7 +227,7 @@ public class DesktopNotify {
      *                assigned by type.
      */
     public static void showDesktopMessage(String title, String message,
-                                          int type, Image icon) {
+                                          NotifyType type, Image icon) {
         showDesktopMessage(title, message, type, icon, null, 0);
     }
 
@@ -259,7 +251,7 @@ public class DesktopNotify {
      *                      the user clicks the notification.
      */
     public static void showDesktopMessage(String title, String message,
-                                          int type, Image icon, ActionListener action, long maxTimeMillis) {
+                                          NotifyType type, Image icon, ActionListener action, long maxTimeMillis) {
         Notify pane = new Notify(title, message, type, defTextOrientation, icon);
         pane.setTimeout(maxTimeMillis);
         pane.setAction(action);
