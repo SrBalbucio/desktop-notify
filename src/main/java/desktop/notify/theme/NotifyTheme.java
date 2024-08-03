@@ -94,6 +94,9 @@ public class NotifyTheme {
     @Getter
     protected Image[] iconSet;
 
+    @Getter
+    @Setter
+    protected boolean transparent = true;
 
     /**
      * @return The background colors to use in the theme (regular background and

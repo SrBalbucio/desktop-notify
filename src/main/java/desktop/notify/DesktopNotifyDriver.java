@@ -24,15 +24,15 @@ public final class DesktopNotifyDriver {
     /**
      * The list of notifications currently on queue.
      */
-    static List<Notify> windows = new ArrayList<>();
+    public static List<Notify> windows = new ArrayList<>();
     /**
      * The window used to show the notifications.
      */
-    static DesktopLayoutFrame frame;
+    public static DesktopLayoutFrame frame;
     /**
      * The DesktopNotify driver Thread.
      */
-    static volatile Thread tredo;
+    public static volatile Thread tredo;
 
     private DesktopNotifyDriver() {
     }

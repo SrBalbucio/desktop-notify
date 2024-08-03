@@ -151,8 +151,10 @@ public class Notify {
         if (i > 500) i = expTime() - l;
         if (i < 0) i = 0;
         if (i > 500) i = -1;
-        rd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+        rd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        rd.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         AffineTransform trans = rd.getTransform();
         rd.translate(x, y);
 
@@ -162,6 +164,11 @@ public class Notify {
             rd.scale(d, d);
             rd.setComposite(AlphaComposite
                     .getInstance(AlphaComposite.SRC_OVER, (float) d));
+        }
+
+        if (!theme.isTransparent()) {
+            rd.setColor(theme.bgGrad()[0]);
+            rd.fillRoundRect(0, 0, w, h, 20, 20);
         }
 
         rd.setPaint(new GradientPaint(0, (title.isEmpty() ? 0 : 25), theme.getBgGrad()[0], 0, h, theme.getBgGrad()[highl + 1], false));
@@ -207,7 +214,7 @@ public class Notify {
 //            rd.drawString("X", w-16, 18);
 //        }
         Image icon = this.icon == null ?
-                (type == NotifyType.NONE ? null : theme.getIconSet()[type.getImgPos()-1]) : this.icon;
+                (type == NotifyType.NONE ? null : theme.getIconSet()[type.getImgPos() - 1]) : this.icon;
         if (icon != null) {
             rd.drawImage(icon, orientation == NotifyDirection.RIGHT_TO_LEFT ? (w - 7 - 32) : 6, (h / 2) - 15, 32, 32, null);
         }
