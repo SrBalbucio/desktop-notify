@@ -7,6 +7,8 @@ package desktop.notify;
 import desktop.notify.model.Notify;
 import desktop.notify.model.NotifyDirection;
 import desktop.notify.model.NotifyType;
+import desktop.notify.theme.NotifyTheme;
+import desktop.notify.theme.NotifyThemes;
 
 import java.awt.Image;
 import java.awt.event.ActionListener;
@@ -23,7 +25,7 @@ public class DesktopNotify {
     public static final int LEFT_TO_RIGHT = 0;
     public static final int RIGHT_TO_LEFT = 1;
 
-    public static NotifyTheme defTheme = NotifyTheme.Dark;
+    public static NotifyTheme defTheme = NotifyThemes.DARK.getTheme();
 
     /**
      * Sets the theme to use by default when creating notifications.
@@ -243,6 +245,10 @@ public class DesktopNotify {
         pane.setTimeout(maxTimeMillis);
         pane.setAction(action);
         pane.show();
+    }
+
+    public static void show(Notify notify){
+        notify.show();
     }
 
 }

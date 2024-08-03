@@ -5,7 +5,7 @@
 package desktop.notify.service;
 
 import desktop.notify.NotificationBuilder;
-import desktop.notify.NotifyTheme;
+import desktop.notify.theme.NotifyTheme;
 import desktop.notify.model.NotifyDirection;
 import desktop.notify.model.NotifyType;
 
@@ -71,11 +71,12 @@ public class NotifyServer extends NotifyService {
         if (align != null) builder.setTextOrientation(align);
         if (timeout != null) builder.setTimeOut(timeout);
         if (themeName != null) {
-            if (themeName.equals(DARK_THEME)) {
-                builder.setTheme(NotifyTheme.Dark);
-            } else if (themeName.equals(LIGHT_THEME)) {
-                builder.setTheme(NotifyTheme.Light);
-            }
+            // TODO tem que arruma isso
+//            if (themeName.equals(DARK_THEME)) {
+//                builder.setTheme(NotifyTheme.Dark);
+//            } else if (themeName.equals(LIGHT_THEME)) {
+//                builder.setTheme(NotifyTheme.Light);
+//            }
         }
         builder.build().show();
     }

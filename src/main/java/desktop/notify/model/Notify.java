@@ -3,7 +3,7 @@ package desktop.notify.model;
 import desktop.notify.DesktopNotify;
 import desktop.notify.DesktopNotifyDriver;
 import desktop.notify.NotificationBuilder;
-import desktop.notify.NotifyTheme;
+import desktop.notify.theme.NotifyTheme;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,8 +19,8 @@ public class Notify {
     private String title;
     private String message;
     private Image icon;
-    private NotifyType type;
-    private NotifyDirection orientation;
+    private NotifyType type = NotifyType.NONE;
+    private NotifyDirection orientation = NotifyDirection.LEFT_TO_RIGHT;
 
     /**
      * A <code>NotifyTheme</code> object with the color and Font parameters to
@@ -155,6 +155,7 @@ public class Notify {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         AffineTransform trans = rd.getTransform();
         rd.translate(x, y);
+
         if (i != -1) {
             double d = i / 500.0;
             rd.translate(w / 2 - ((w / 2) * d), h / 2 - ((h / 2) * d));
@@ -162,11 +163,12 @@ public class Notify {
             rd.setComposite(AlphaComposite
                     .getInstance(AlphaComposite.SRC_OVER, (float) d));
         }
-        rd.setPaint(new GradientPaint(0, (title.isEmpty() ? 0 : 25),
-                /*hover? new Color(50,57,65):*/theme.getBgGrad()[0],
-                0, h, theme.getBgGrad()[highl + 1], false));
+
+        rd.setPaint(new GradientPaint(0, (title.isEmpty() ? 0 : 25), theme.getBgGrad()[0], 0, h, theme.getBgGrad()[highl + 1], false));
+
         if (hover && highl < 20) highl++;
         if (!hover && highl > 0) highl--;
+
         rd.fillRoundRect(0, 0, w, h, 20, 20);
         rd.setPaint(null);
         rd.setColor(theme.getBorderColor());

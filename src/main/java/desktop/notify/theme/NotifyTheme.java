@@ -2,14 +2,16 @@
  * DS Desktop Notify
  * A small utility to show small notifications in your Desktop anytime!
  */
-package desktop.notify;
+package desktop.notify.theme;
 
+import desktop.notify.DesktopNotify;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.util.Objects;
 import javax.swing.ImageIcon;
 
 /**
@@ -24,6 +26,21 @@ import javax.swing.ImageIcon;
  * @since 0.8
  */
 public class NotifyTheme {
+
+    /**
+     * The default set of icons
+     */
+    public static final Image[] defaultIconSet;
+
+    //Load the default icon set and themes
+    static {
+        defaultIconSet = new Image[8];
+        for (int i = 0; i < defaultIconSet.length; i++) {
+            defaultIconSet[i] = new ImageIcon(Objects.requireNonNull(DesktopNotify.class
+                    .getResource("/themes/default/" + (i + 1) + ".png"))).getImage();
+        }
+    }
+
     /**
      * The font to use in titles
      * -- GETTER --
@@ -77,68 +94,12 @@ public class NotifyTheme {
     @Getter
     protected Image[] iconSet;
 
-    /**
-     * The default Dark theme
-     */
-    public static final NotifyTheme Dark;
-    /**
-     * The default Light theme
-     */
-    public static final NotifyTheme Light;
-    /**
-     * The default set of icons
-     */
-    public static final Image[] defaultIconSet;
-
-    //Load the default icon set and themes
-    static {
-        defaultIconSet = new Image[8];
-        for (int i = 0; i < defaultIconSet.length; i++) {
-            defaultIconSet[i] = new ImageIcon(DesktopNotify.class
-                    .getResource("/img/" + (i + 1) + ".png")).getImage();
-        }
-        Dark = new DarkTheme();
-        Light = new LightTheme();
-    }
-
-    /**
-     * The default Dark theme. You can extend from this class to use it as base
-     * for your own theme if you feel like it.
-     */
-    public static class DarkTheme extends NotifyTheme {
-        {
-            titleFont = new Font("Verdana", Font.BOLD, 14);
-            contentFont = new Font("Verdana", Font.PLAIN, 12);
-            borderColor = new Color(50, 50, 50);
-            titleColor = Color.WHITE;
-            contentColor = Color.WHITE;
-            iconSet = defaultIconSet;
-            setBgGrad(new Color(50, 50, 50), new Color(59, 75, 91));
-        }
-    }
-
-
-    /**
-     * The default Light theme. You can extend from this class to use it as base
-     * for your own theme if you feel like it.
-     */
-    public static class LightTheme extends NotifyTheme {
-        {
-            titleFont = new Font("Verdana", Font.BOLD, 14);
-            contentFont = new Font("Verdana", Font.PLAIN, 12);
-            borderColor = new Color(200, 200, 200);
-            titleColor = Color.BLACK;
-            contentColor = Color.BLACK;
-            iconSet = defaultIconSet;
-            setBgGrad(new Color(240, 240, 240), new Color(169, 185, 201));
-        }
-    }
 
     /**
      * @return The background colors to use in the theme (regular background and
      * highlighted gradient), stored in an array.
      */
-    public Color[] getBgGrad() {
+    public Color[] bgGrad() {
         return new Color[]{bgGrad[0], bgGrad[21]};
     }
 

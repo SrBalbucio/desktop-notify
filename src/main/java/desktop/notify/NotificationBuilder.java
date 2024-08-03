@@ -7,6 +7,7 @@ package desktop.notify;
 import desktop.notify.model.Notify;
 import desktop.notify.model.NotifyDirection;
 import desktop.notify.model.NotifyType;
+import desktop.notify.theme.NotifyTheme;
 
 import java.awt.Image;
 import java.awt.event.ActionListener;
