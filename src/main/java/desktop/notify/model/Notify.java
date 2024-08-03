@@ -176,6 +176,7 @@ public class Notify {
         if (hover && highl < 20) highl++;
         if (!hover && highl > 0) highl--;
 
+        int imgSize = (h - 15);
         rd.fillRoundRect(0, 0, w, h, 20, 20);
         rd.setPaint(null);
         rd.setColor(theme.getBorderColor());
@@ -186,11 +187,11 @@ public class Notify {
             if (!title.isEmpty()) {
                 rd.setColor(theme.getTitleColor());
                 rd.setFont(theme.getTitleFont());
-                int tX = 5 + ((icon == null && type == NotifyType.NONE) ? 0 : 38);
+                int tX = 5 + ((icon == null && type == NotifyType.NONE) ? 0 : (imgSize + 10));
                 for (int j = 0; j < tlts.length; j++) {
                     if (orientation == NotifyDirection.RIGHT_TO_LEFT) {
                         FontMetrics ftm = DesktopNotifyDriver.getFontMetrics(theme.getTitleFont());
-                        tX = w - 4 - ((icon == null && type == NotifyType.NONE) ? 0 : 38) - ftm.stringWidth(tlts[j]);
+                        tX = w - 4 - ((icon == null && type == NotifyType.NONE) ? 0 : (imgSize + 10)) - ftm.stringWidth(tlts[j]);
                     }
                     rd.drawString(tlts[j], tX, 20 + theme.getBorderTop() + (titleH * j));
                 }
@@ -198,11 +199,11 @@ public class Notify {
             if (!message.isEmpty()) {
                 rd.setColor(theme.getContentColor());
                 rd.setFont(theme.getContentFont());
-                int tX = 6 + ((icon == null && type == NotifyType.NONE) ? 0 : 38);
+                int tX = 6 + ((icon == null && type == NotifyType.NONE) ? 0 : (imgSize + 10));
                 for (int j = 0; j < msgs.length; j++) {
                     if (orientation == NotifyDirection.RIGHT_TO_LEFT) {
                         FontMetrics ftm = DesktopNotifyDriver.getFontMetrics(theme.getContentFont());
-                        tX = w - 5 - ((icon == null && type == NotifyType.NONE) ? 0 : 38) - ftm.stringWidth(msgs[j]);
+                        tX = w - 5 - ((icon == null && type == NotifyType.NONE) ? 0 : (imgSize + 10)) - ftm.stringWidth(msgs[j]);
                     }
                     rd.drawString(msgs[j], tX, 20 + theme.getBorderTop() + (titleH * tlts.length) + (textH * j));
                 }
@@ -216,7 +217,7 @@ public class Notify {
         Image icon = this.icon == null ?
                 (type == NotifyType.NONE ? null : theme.getIconSet()[type.getImgPos() - 1]) : this.icon;
         if (icon != null) {
-            rd.drawImage(icon, orientation == NotifyDirection.RIGHT_TO_LEFT ? (w - 7 - 32) : 6, (h / 2) - 15, 32, 32, null);
+            rd.drawImage(icon, orientation == NotifyDirection.RIGHT_TO_LEFT ? (w - 7 - imgSize) : 6, (h / 2) - (imgSize / 2), imgSize, imgSize, null);
         }
         rd.setTransform(trans);
         rd.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));

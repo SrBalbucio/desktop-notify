@@ -70,6 +70,10 @@ public class DesktopNotify {
         DesktopNotify.defTextOrientation = defTextOrientation;
     }
 
+    public static void setDefaultWidth(int width) {
+        DesktopNotifyDriver.WIDTH = width;
+    }
+
     /**
      * Creates and shows a new notification. If there isn't an instance of the
      * DesktopNotifyDriver thread running, it will be created and started to

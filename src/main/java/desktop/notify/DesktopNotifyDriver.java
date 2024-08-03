@@ -33,9 +33,7 @@ public final class DesktopNotifyDriver {
      * The DesktopNotify driver Thread.
      */
     public static volatile Thread tredo;
-
-    private DesktopNotifyDriver() {
-    }
+    public static int WIDTH = 300;
 
     /**
      * Invoked by DesktopNotify, adds a notification to the queue. Notifications
@@ -51,6 +49,7 @@ public final class DesktopNotifyDriver {
             JDialog.setDefaultLookAndFeelDecorated(bool);
         }
         if (!frame.isVisible()) frame.setVisible(true);
+        window.setW(WIDTH);
         window.sortMessage();
         window.setVisible(true);
         windows.add(window);
@@ -126,8 +125,8 @@ public final class DesktopNotifyDriver {
             boolean bool = isVisible();
             if (visible) {
                 Rectangle screenSize = Utils.getScreenSize();
-                setBounds(screenSize.x + screenSize.width - 310, screenSize.y,
-                        300, screenSize.height - 10);
+                setBounds(screenSize.x + screenSize.width - DesktopNotifyDriver.WIDTH - 10, screenSize.y,
+                        DesktopNotifyDriver.WIDTH, screenSize.height - 10);
                 if (!bool && !nativeTrans)
                     bg = Utils.getBackgroundCap(getBounds());
             }
