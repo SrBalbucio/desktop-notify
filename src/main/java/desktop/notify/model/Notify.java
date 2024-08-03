@@ -47,6 +47,7 @@ public class Notify {
     private int highl = 0;
     private long popupStart = 0L;
     private long timeOut = 8000L;
+    private int imgSize;
 
     /**
      * An action to perform when the notification is clicked.
@@ -176,7 +177,6 @@ public class Notify {
         if (hover && highl < 20) highl++;
         if (!hover && highl > 0) highl--;
 
-        int imgSize = (h - 15);
         rd.fillRoundRect(0, 0, w, h, 20, 20);
         rd.setPaint(null);
         rd.setColor(theme.getBorderColor());
@@ -234,6 +234,10 @@ public class Notify {
         }
 
         if (!message.isEmpty()) {
+
+            msgs = splitLines(message, theme.getContentFont());
+            h = 15 + theme.getBorderTop() + (theme.getLineHeight(theme.getTitleFont()) * tlts.length) + (theme.getLineHeight(theme.getContentFont()) * msgs.length);
+            imgSize = (h - 15);
             msgs = splitLines(message, theme.getContentFont());
             h = 15 + theme.getBorderTop() + (theme.getLineHeight(theme.getTitleFont()) * tlts.length) + (theme.getLineHeight(theme.getContentFont()) * msgs.length);
         }
@@ -245,11 +249,14 @@ public class Notify {
         String[] strs = in.split("\n");
         StringBuilder builder = new StringBuilder();
         FontMetrics ftm = DesktopNotifyDriver.getFontMetrics(font);
+
+        int ij = (h + 10);
+        int imgSize = (38 > ij ? 38 : ij);
+
         for (String str : strs) {
             String[] words = str.split(" ");
             for (String word : words) {
-                if (ftm.stringWidth(builder.toString()) + ftm.stringWidth(word)
-                        < (w - 12 - ((icon == null && type == NotifyType.NONE) ? 0 : (h - 5)))) {
+                if (ftm.stringWidth(builder.toString()) + ftm.stringWidth(word) < (w - 12 - ((icon == null && type == NotifyType.NONE) ? 0 : imgSize))) {
                     builder.append(word).append(" ");
                 } else {
                     list.add(builder.toString());
@@ -259,6 +266,8 @@ public class Notify {
             list.add(builder.toString());
             builder.setLength(0);
         }
+
+
         out = new String[list.size()];
         out = list.toArray(out);
         return out;

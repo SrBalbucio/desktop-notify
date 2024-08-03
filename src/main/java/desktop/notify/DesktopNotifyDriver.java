@@ -4,6 +4,7 @@
  */
 package desktop.notify;
 
+import balbucio.throwable.Throwable;
 import desktop.notify.model.Notify;
 
 import java.awt.*;
@@ -20,7 +21,7 @@ import javax.swing.JDialog;
  *
  * @author DragShot
  */
-public final class DesktopNotifyDriver {
+public class DesktopNotifyDriver {
     /**
      * The list of notifications currently on queue.
      */
@@ -66,10 +67,8 @@ public final class DesktopNotifyDriver {
                 frame.finished = false;
                 while (!frame.finished) {
                     frame.repaint();
-                    try {
-                        Thread.sleep(10); //FPS> 10:Super-high, 20: High, 40: Normal, 80: Low
-                    } catch (InterruptedException ignored) {
-                    }
+                    //FPS> 10:Super-high, 20: High, 40: Normal, 80: Low
+                    Throwable.silently(() -> Thread.sleep(10));
                 }
                 frame.dispose();
                 tredo = null;
