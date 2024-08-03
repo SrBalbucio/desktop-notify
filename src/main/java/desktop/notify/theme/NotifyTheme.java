@@ -5,12 +5,11 @@
 package desktop.notify.theme;
 
 import desktop.notify.DesktopNotify;
+import desktop.notify.DesktopNotifyDriver;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Image;
+import java.awt.*;
 import java.util.Objects;
 import javax.swing.ImageIcon;
 
@@ -138,6 +137,11 @@ public class NotifyTheme {
             throw new IllegalArgumentException("The supplied array of images "
                     + "must contain 8 icons!");
         this.iconSet = iconSet;
+    }
+
+    public int getLineHeight(Font font) {
+        FontMetrics ftm = DesktopNotifyDriver.getFontMetrics(font);
+        return ftm.getHeight() - ftm.getLeading();
     }
 
     /**

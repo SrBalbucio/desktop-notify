@@ -10,7 +10,7 @@ public class DarkSlimNotifyTheme extends NotifyTheme {
         titleColor = Color.WHITE;
         contentColor = Color.WHITE;
         iconSet = defaultIconSet;
-        setBgGrad(new Color(50, 50, 50), new Color(60, 60, 60));
+        setBgGrad(new Color(50, 50, 50), new Color(48, 79, 254));
         setTransparent(false);
     }
 }

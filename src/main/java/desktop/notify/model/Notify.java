@@ -181,8 +181,8 @@ public class Notify {
         rd.setColor(theme.getBorderColor());
         rd.drawRoundRect(0, 0, w - 1, h - 1, 20, 20);
         if (i == -1) {
-            int titleH = getLineHeight(theme.getTitleFont());
-            int textH = getLineHeight(theme.getContentFont());
+            int titleH = theme.getLineHeight(theme.getTitleFont());
+            int textH = theme.getLineHeight(theme.getContentFont());
             if (!title.isEmpty()) {
                 rd.setColor(theme.getTitleColor());
                 rd.setFont(theme.getTitleFont());
@@ -222,20 +222,20 @@ public class Notify {
         rd.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
     }
 
-    private int getLineHeight(Font font) {
-        FontMetrics ftm = DesktopNotifyDriver.getFontMetrics(font);
-        return ftm.getHeight() - ftm.getLeading();
-    }
 
     /**
      * Splits the words of the text across lines that fit inside the
      * notification. It is called by the {@link DesktopNotifyDriver}.
      */
     public void sortMessage() {
-        if (!title.isEmpty()) tlts = splitLines(title, theme.getTitleFont());
-        if (!message.isEmpty()) msgs = splitLines(message, theme.getContentFont());
-        h = 15 + (getLineHeight(theme.getTitleFont()) * tlts.length)
-                + (getLineHeight(theme.getContentFont()) * msgs.length);
+        if (!title.isEmpty()) {
+            tlts = splitLines(title, theme.getTitleFont());
+        }
+
+        if (!message.isEmpty()) {
+            msgs = splitLines(message, theme.getContentFont());
+            h = 15 + (theme.getLineHeight(theme.getTitleFont()) * tlts.length) + (theme.getLineHeight(theme.getContentFont()) * msgs.length);
+        }
     }
 
     private String[] splitLines(String in, Font font) {
