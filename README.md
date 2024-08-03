@@ -1,5 +1,5 @@
 # Based on
-This project is a fork of DS-Desktop-Notify. Despite my efforts to contribute to the official project, I decided to create an alternative version with different functions than the originally intended one.
+This project is a fork of [DS-Desktop-Notify](https://github.com/DragShot/DS-Desktop-Notify). Despite my efforts to contribute to the official project, I decided to create an alternative version with different functions than the originally intended one.
 
 ## desktop-notify ![build passing](http://img.shields.io/badge/build-passing-green.png) ![platform desktop](http://img.shields.io/badge/platform-desktop-orange.png)
 A lightweight library that you can embed in your Java-powered desktop apps to display floating notifications on the desktop.
@@ -11,6 +11,8 @@ A lightweight library that you can embed in your Java-powered desktop apps to di
 Under development, this library allows to show small and stylish notifications on the Desktop. As the developer, all you need is to add this tiny .jar to your classpath and invoke a single static method to create and display a new notification. Something as simple as the following:
 
 ```java
+import desktop.notify.DesktopNotify;
+
 DesktopNotify.showDesktopMessage(
     "This is a notification",
     "With DS Desktop Notify, displaying notifications on the screen is quick and easy!",
@@ -36,4 +38,3 @@ So, no matter what your application is about, if you need to show pop-up notific
 ## Requirements
 - Windows XP/Vista/7/8/10, Linux, Mac-OS X
 - Java 8 or higher
-- Translucent windows support in AWT/Swing is recommended for best results (Java 7 or higher is needed for this).
