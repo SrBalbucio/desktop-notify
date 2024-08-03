@@ -2,11 +2,11 @@
  * DS Desktop Notify
  * A small utility to show small notifications in your Desktop anytime!
  */
-package ds.desktop.notify;
+package desktop.notify;
 
-import ds.desktop.notify.model.Notify;
-import ds.desktop.notify.model.NotifyDirection;
-import ds.desktop.notify.model.NotifyType;
+import desktop.notify.model.Notify;
+import desktop.notify.model.NotifyDirection;
+import desktop.notify.model.NotifyType;
 
 import java.awt.Image;
 import java.awt.event.ActionListener;

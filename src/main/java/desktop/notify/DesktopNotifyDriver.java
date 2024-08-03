@@ -2,9 +2,9 @@
  * DS Desktop Notify
  * A small utility to show small notifications in your Desktop anytime!
  */
-package ds.desktop.notify;
+package desktop.notify;
 
-import ds.desktop.notify.model.Notify;
+import desktop.notify.model.Notify;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 
 /**
  * This Driver keeps track of the notifications being displayed.

@@ -1,4 +1,4 @@
-package ds.desktop.notify.model;
+package desktop.notify.model;
 
 public enum NotifyDirection {
 

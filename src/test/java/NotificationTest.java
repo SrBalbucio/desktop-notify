@@ -1,5 +1,5 @@
-import ds.desktop.notify.DesktopNotify;
-import ds.desktop.notify.model.NotifyType;
+import desktop.notify.DesktopNotify;
+import desktop.notify.model.NotifyType;
 
 public class NotificationTest {
 

@@ -2,28 +2,26 @@
  * DS Desktop Notify
  * A small utility to show small notifications in your Desktop anytime!
  */
-package ds.desktop.notify.service;
+package desktop.notify.service;
 
-import ds.desktop.notify.NotificationBuilder;
-import ds.desktop.notify.NotifyTheme;
+import desktop.notify.NotificationBuilder;
+import desktop.notify.NotifyTheme;
+import desktop.notify.model.NotifyDirection;
+import desktop.notify.model.NotifyType;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import balbucio.throwable.Throwable;
-import ds.desktop.notify.model.NotifyDirection;
-import ds.desktop.notify.model.NotifyType;
 
 /**
  * A {@code NotifyServer} runs a notification service for this host. Other
@@ -73,9 +71,9 @@ public class NotifyServer extends NotifyService {
         if (align != null) builder.setTextOrientation(align);
         if (timeout != null) builder.setTimeOut(timeout);
         if (themeName != null) {
-            if (themeName.equals(NotifyService.DARK_THEME)) {
+            if (themeName.equals(DARK_THEME)) {
                 builder.setTheme(NotifyTheme.Dark);
-            } else if (themeName.equals(NotifyService.LIGHT_THEME)) {
+            } else if (themeName.equals(LIGHT_THEME)) {
                 builder.setTheme(NotifyTheme.Light);
             }
         }

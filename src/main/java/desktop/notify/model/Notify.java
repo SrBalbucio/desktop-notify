@@ -1,9 +1,9 @@
-package ds.desktop.notify.model;
+package desktop.notify.model;
 
-import ds.desktop.notify.DesktopNotify;
-import ds.desktop.notify.DesktopNotifyDriver;
-import ds.desktop.notify.NotificationBuilder;
-import ds.desktop.notify.NotifyTheme;
+import desktop.notify.DesktopNotify;
+import desktop.notify.DesktopNotifyDriver;
+import desktop.notify.NotificationBuilder;
+import desktop.notify.NotifyTheme;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +12,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
-
-import static ds.desktop.notify.DesktopNotify.*;
 
 @Data
 public class Notify {

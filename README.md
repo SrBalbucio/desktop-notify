@@ -1,5 +1,8 @@
-# DS-Desktop-Notify ![build passing](http://img.shields.io/badge/build-passing-green.png) ![platform desktop](http://img.shields.io/badge/platform-desktop-orange.png)
-###### A lightweight library that you can embed in your Java-powered desktop apps to display floating notifications on the desktop.
+# Based on
+This project is a fork of DS-Desktop-Notify. Despite my efforts to contribute to the official project, I decided to create an alternative version with different functions than the originally intended one.
+
+## desktop-notify ![build passing](http://img.shields.io/badge/build-passing-green.png) ![platform desktop](http://img.shields.io/badge/platform-desktop-orange.png)
+A lightweight library that you can embed in your Java-powered desktop apps to display floating notifications on the desktop.
 
 <p align="center">
   <img src="http://dragshot.webcindario.com/software/img/showcase/desktopnotify.png" alt="Preview"/>
@@ -34,14 +37,3 @@ So, no matter what your application is about, if you need to show pop-up notific
 - Windows XP/Vista/7/8/10, Linux, Mac-OS X
 - Java 8 or higher
 - Translucent windows support in AWT/Swing is recommended for best results (Java 7 or higher is needed for this).
-
-## Being developed
-- Notification engine rewrite for a future 1.0 release.
-- Transitions and more customizable options for the notification area.
-- Image thumbnails and multiple actions per notification.
-- Performance improvements and better refresh rate adaptability.
-
-## Do you want to use this in a production environment?
-It has come to my attention that there's been some enterprise and educational projects that have included DS Desktop Notify as one of their dependencies. This is why I have deployed an [official javadoc](http://dragshot.webcindario.com/software/desktopnotify/javadoc).
-
-If you are interested in using DS Desktop Notify and need some help/guidance with it, want to request a feature you need or submit a bug, you can send an e-mail to [the.drag.shot@gmail.com](mailto:the.drag.shot@gmail.com) with a subject starting with **[Desktop Notify]**, or open an issue here on GitHub.

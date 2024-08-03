@@ -2,27 +2,14 @@
  * DS Desktop Notify
  * A small utility to show small notifications in your Desktop anytime!
  */
-package ds.desktop.notify;
+package desktop.notify;
 
-import ds.desktop.notify.model.Notify;
-import ds.desktop.notify.model.NotifyDirection;
-import ds.desktop.notify.model.NotifyType;
-import lombok.Getter;
-import lombok.Setter;
+import desktop.notify.model.Notify;
+import desktop.notify.model.NotifyDirection;
+import desktop.notify.model.NotifyType;
 
-import java.awt.AlphaComposite;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.GradientPaint;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 
 /**
  * Main class of DS Desktop Notify. Use it to create and show notifications on
