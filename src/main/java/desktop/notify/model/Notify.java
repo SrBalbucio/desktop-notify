@@ -39,7 +39,7 @@ public class Notify {
      */
     private String[] msgs = new String[0];
 
-    private int w = 0;
+    private int w = 300;
     private int h = 0;
 
     private boolean visible = false;
@@ -192,7 +192,7 @@ public class Notify {
                         FontMetrics ftm = DesktopNotifyDriver.getFontMetrics(theme.getTitleFont());
                         tX = w - 4 - ((icon == null && type == NotifyType.NONE) ? 0 : 38) - ftm.stringWidth(tlts[j]);
                     }
-                    rd.drawString(tlts[j], tX, 20 + (titleH * j));
+                    rd.drawString(tlts[j], tX, 20 + theme.getBorderTop() + (titleH * j));
                 }
             }
             if (!message.isEmpty()) {
@@ -204,7 +204,7 @@ public class Notify {
                         FontMetrics ftm = DesktopNotifyDriver.getFontMetrics(theme.getContentFont());
                         tX = w - 5 - ((icon == null && type == NotifyType.NONE) ? 0 : 38) - ftm.stringWidth(msgs[j]);
                     }
-                    rd.drawString(msgs[j], tX, 20 + (titleH * tlts.length) + (textH * j));
+                    rd.drawString(msgs[j], tX, 20 + theme.getBorderTop() + (titleH * tlts.length) + (textH * j));
                 }
             }
         }
@@ -234,7 +234,7 @@ public class Notify {
 
         if (!message.isEmpty()) {
             msgs = splitLines(message, theme.getContentFont());
-            h = 15 + (theme.getLineHeight(theme.getTitleFont()) * tlts.length) + (theme.getLineHeight(theme.getContentFont()) * msgs.length);
+            h = 15 + theme.getBorderTop() + (theme.getLineHeight(theme.getTitleFont()) * tlts.length) + (theme.getLineHeight(theme.getContentFont()) * msgs.length);
         }
     }
 

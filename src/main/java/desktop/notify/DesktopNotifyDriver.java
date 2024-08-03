@@ -51,7 +51,6 @@ public final class DesktopNotifyDriver {
             JDialog.setDefaultLookAndFeelDecorated(bool);
         }
         if (!frame.isVisible()) frame.setVisible(true);
-        window.setW(300);
         window.sortMessage();
         window.setVisible(true);
         windows.add(window);
@@ -69,7 +68,7 @@ public final class DesktopNotifyDriver {
                 while (!frame.finished) {
                     frame.repaint();
                     try {
-                        Thread.sleep(20); //FPS> 10:Super-high, 20: High, 40: Normal, 80: Low
+                        Thread.sleep(10); //FPS> 10:Super-high, 20: High, 40: Normal, 80: Low
                     } catch (InterruptedException ignored) {
                     }
                 }

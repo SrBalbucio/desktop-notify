@@ -96,6 +96,9 @@ public class NotifyTheme {
     @Getter
     @Setter
     protected boolean transparent = true;
+    @Getter
+    @Setter
+    protected int borderTop = 0;
 
     /**
      * @return The background colors to use in the theme (regular background and
