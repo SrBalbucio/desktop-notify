@@ -61,7 +61,7 @@ public class NotificationBuilder {
      * Default constructor.
      */
     public NotificationBuilder() {
-        type = NotifyType.DEFAULT;
+        type = NotifyType.NONE;
         orientation = DesktopNotify.defTextOrientation;
         timeOut = 0L;
     }
@@ -188,7 +188,7 @@ public class NotificationBuilder {
         title = null;
         message = null;
         icon = null;
-        type = NotifyType.DEFAULT;
+        type = NotifyType.NONE;
         timeOut = 0L;
         action = null;
         theme = null;

@@ -4,6 +4,9 @@
  */
 package ds.desktop.notify.service;
 
+import ds.desktop.notify.model.NotifyDirection;
+import ds.desktop.notify.model.NotifyType;
+
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
@@ -32,7 +35,7 @@ public class NotifyClient extends NotifyService {
     }
 
     @Override
-    public void postNotification(String title, String message, Integer type, Integer align, Long timeout, String themeName) {
+    public void postNotification(String title, String message, NotifyType type, NotifyDirection align, Long timeout, String themeName) {
         try {
             connect();
             String resp;

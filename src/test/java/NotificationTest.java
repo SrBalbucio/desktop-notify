@@ -5,7 +5,7 @@ public class NotificationTest {
 
     public static void main(String[] args) {
         DesktopNotify.showDesktopMessage(
-                "This is a notification",
+                "This is a notification sucess",
                 "With DS Desktop Notify, displaying notifications on the screen is quick and easy!",
                 NotifyType.SUCCESS);
         DesktopNotify.showDesktopMessage(

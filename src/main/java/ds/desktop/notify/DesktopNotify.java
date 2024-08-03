@@ -94,7 +94,7 @@ public class DesktopNotify {
      * @param message The message, if any.
      */
     public static void showDesktopMessage(String title, String message) {
-        showDesktopMessage(title, message, NotifyType.DEFAULT, null, null, 0);
+        showDesktopMessage(title, message, NotifyType.NONE, null, null, 0);
     }
 
     /**

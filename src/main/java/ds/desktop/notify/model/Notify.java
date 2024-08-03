@@ -207,7 +207,7 @@ public class Notify {
 //            rd.drawString("X", w-16, 18);
 //        }
         Image icon = this.icon == null ?
-                (type == NotifyType.NONE ? null : theme.getIconSet()[type.ordinal() - 1]) : this.icon;
+                (type == NotifyType.NONE ? null : theme.getIconSet()[type.getImgPos()-1]) : this.icon;
         if (icon != null) {
             rd.drawImage(icon, orientation == NotifyDirection.RIGHT_TO_LEFT ? (w - 7 - 32) : 6, (h / 2) - 15, 32, 32, null);
         }
