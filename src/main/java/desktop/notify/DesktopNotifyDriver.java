@@ -68,7 +68,7 @@ public class DesktopNotifyDriver {
                 while (!frame.finished) {
                     frame.repaint();
                     //FPS> 10:Super-high, 20: High, 40: Normal, 80: Low
-                    Throwable.silently(() -> Thread.sleep(10));
+                    Throwable.threadSleep(20);
                 }
                 frame.dispose();
                 tredo = null;

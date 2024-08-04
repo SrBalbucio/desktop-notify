@@ -6,7 +6,7 @@
 
     <groupId>desktop.notify</groupId>
     <artifactId>desktop-notify</artifactId>
-    <version>0.9.5-03</version>
+    <version>0.9.5-04</version>
 
     <name>desktop-notify</name>
     <description>A lightweight library that you can use in your Java-powered desktop apps to show floating notifications on the desktop.</description>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>balbucio.throwable</groupId>
             <artifactId>throwable</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
         </dependency>
 
         <dependency>
